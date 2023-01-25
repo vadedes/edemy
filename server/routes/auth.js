@@ -1,9 +1,11 @@
-import express from 'express'
-import {register} from '../controllers/auth'
+import express from 'express';
 
 const router = express.Router();
 
-router.post('/register', register)
+// controllers
+import { register } from '../controllers/auth';
 
+router.post('/register', register);
+router.get('/register', register);
 
 module.exports = router;
