@@ -17,7 +17,7 @@ export default function register() {
     //second arg in request was the data to be sent
     try {
       setLoading(true);
-      const { data } = await axios.post(`http://localhost:3333/api/register`, {
+      const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API}/register`, {
         name,
         email,
         password,
