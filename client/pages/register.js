@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { SyncOutlined } from '@ant-design/icons';
+import Link from 'next/link';
 
 export default function register() {
   const [name, setName] = useState('');
@@ -17,7 +18,7 @@ export default function register() {
     //second arg in request was the data to be sent
     try {
       setLoading(true);
-      const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API}/register`, {
+      const { data } = await axios.post(`/api/register`, {
         name,
         email,
         password,
@@ -73,6 +74,13 @@ export default function register() {
           {loading ? <SyncOutlined spin /> : 'Submit'}
         </button>
       </form>
+
+      <p className="text-center p-3">
+        Already registered?{' '}
+        <Link href="/login" className="text-bold text-blue-500 cursor-pointer">
+          Login
+        </Link>
+      </p>
     </div>
   );
 }
