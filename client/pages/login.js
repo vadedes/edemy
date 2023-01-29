@@ -1,13 +1,24 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { SyncOutlined } from '@ant-design/icons';
 import Link from 'next/link';
+import { Context } from '@/context';
+import { useRouter } from 'next/router';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+
+  //initialize to gain access to state and payload
+  const { state, dispatch } = useContext(Context);
+
+  //router to redirect users on login
+  const router = useRouter();
+
+  //check state - user should be null initially
+  // console.log('STATE', state);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,9 +31,18 @@ export default function Login() {
         email,
         password,
       });
-      console.log('LOGIN RESPONSE', data);
-      // toast.success('You are now logged in.');
-      // setLoading(false);
+      // console.log('LOGIN RESPONSE', data);
+      dispatch({
+        type: 'LOGIN',
+        payload: data,
+      });
+      //save user instance in localStorage so it would persist on browser refresh
+      window.localStorage.setItem('user', JSON.stringify(data));
+      toast.success('You are now logged in.');
+      setLoading(false);
+
+      //redirect user to dashboard once logged in
+      router.push('/');
     } catch (error) {
       toast.error(error.response.data);
       setLoading(false);

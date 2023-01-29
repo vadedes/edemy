@@ -80,3 +80,14 @@ export const login = async (req, res) => {
     return res.status(400).send('Error. Try again.');
   }
 };
+
+//LOGOUT
+export const logout = async (req, res) => {
+  try {
+    //clear cookie
+    res.clearCookie('token');
+    return res.json({ message: 'Signout successful.' });
+  } catch (error) {
+    console.log(error);
+  }
+};
