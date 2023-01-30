@@ -91,3 +91,14 @@ export const logout = async (req, res) => {
     console.log(error);
   }
 };
+
+//Current User
+export const currentUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.auth._id).select('-password').exec();
+    console.log('CURRENT_USER', user);
+    return res.json(user);
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { SyncOutlined } from '@ant-design/icons';
@@ -13,9 +13,15 @@ export default function Login() {
 
   //initialize to gain access to state and payload
   const { state, dispatch } = useContext(Context);
+  const { user } = state;
 
   //router to redirect users on login
   const router = useRouter();
+
+  //redirect user when logged in -> make login page inaccessible to logged in users
+  useEffect(() => {
+    if (user) router.push('/');
+  }, [user]);
 
   //check state - user should be null initially
   // console.log('STATE', state);

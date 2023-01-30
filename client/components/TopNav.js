@@ -92,8 +92,9 @@ export default function TopNav() {
             icon={<CoffeeOutlined />}
             title={user && user.name}
             className="!m-0 !ml-auto !mr-2"
+            key="profile"
           >
-            <Item className="" onClick={logout}>
+            <Item className="" key="/logout" onClick={logout}>
               Logout
             </Item>
           </SubMenu>
