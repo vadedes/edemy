@@ -7,13 +7,14 @@ import {
   UserAddOutlined,
   LogoutOutlined,
   CoffeeOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
 import { Context } from '@/context';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 
-const { Item, SubMenu } = Menu;
+const { Item, SubMenu, ItemGroup } = Menu;
 
 export default function TopNav() {
   const [current, setCurrent] = useState('');
@@ -85,19 +86,25 @@ export default function TopNav() {
             </Item>
           </>
         )}
-
+        {/* make sure submenu is destructured from Menu object */}
         {user && (
-          //make sure submenu is destructured from Menu object
-          <SubMenu
-            icon={<CoffeeOutlined />}
-            title={user && user.name}
-            className="!m-0 !ml-auto !mr-2"
-            key="profile"
-          >
-            <Item className="" key="/logout" onClick={logout}>
-              Logout
-            </Item>
-          </SubMenu>
+          <>
+            <SubMenu
+              icon={<CoffeeOutlined />}
+              title={user && user.name}
+              className="!m-0 !ml-auto !mr-2"
+              key="profile"
+            >
+              <ItemGroup>
+                <Item key="/user" icon={<UserOutlined />}>
+                  <Link href="/user">Dashboard</Link>
+                </Item>
+                <Item className="" key="/logout" onClick={logout}>
+                  Logout
+                </Item>
+              </ItemGroup>
+            </SubMenu>
+          </>
         )}
       </Menu>
     </>
