@@ -1,0 +1,74 @@
+import {useState, useContext, useEffect} from 'react';
+import axios from 'axios';
+import {toast} from 'react-toastify';
+import { SyncOutlined } from '@ant-design/icons';
+import Link from 'next/link';
+import { Context } from '@/context';
+import { useRouter } from 'next/router';
+
+
+const ForgotPassword = () => {
+  //state
+  const [email, setEmail] = useState('');
+  const [success, setSuccess] = useState('');
+  const [code, setCode] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  
+  //context
+  const {state: {user}} = useContext(Context);
+
+  //router
+  const router = useRouter()
+
+  //redirect if user is logged in
+  useEffect(() => {
+    if(user) router.push('/');
+    
+  }, [])
+  
+  //handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      setLoading(true);
+      const {data} = await axios.post('/api/forgot-password', {email});
+      setSuccess(true);
+      toast("Check your email for the secret code");
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+      toast(err.response.data)
+    }
+  }
+
+  return (
+    <>
+    <div className="container mx-auto py-10 flex flex-col justify-center items-center w-96">
+      <h1 className="text-5xl text-bold text-center mx-auto mb-4">Forgot Password</h1>
+    </div>
+
+    <div className='container mx-auto py-0 flex flex-col justify-center items-center w-96'>
+      <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center w-full">
+        <input 
+          type="email" 
+          className='className="mb-4 p-4 border-solid border-2 border-slate-300 rounded-md w-full' 
+          value={email} 
+          onChange={(e)=> setEmail(e.target.value)}
+          placeholder='Enter email'
+          required
+          />
+        <button
+          type='submit'
+          className="px-6 py-4 mt-4 w-full bg-slate-500 text-white rounded-md hover:bg-slate-400 transition ease-in-out duration-300"
+          disabled={!email || loading}
+        >
+          {loading ? <SyncOutlined spin /> : 'Submit'}
+        </button>
+      </form>
+    </div>
+    </>
+  )
+}
+
+export default ForgotPassword;
