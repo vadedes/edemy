@@ -44,8 +44,8 @@ const ForgotPassword = () => {
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
-    console.log(enmail, code, newPassword)
-    return
+    // console.log(email, code, newPassword)
+    // return
     try {
       setLoading(true)
       const {data} = await axios.post('/api/reset-password', {
@@ -57,6 +57,7 @@ const ForgotPassword = () => {
       setCode('');
       setNewPassword('');
       setLoading(false)
+      toast('Great! Now you can login with your new password.');
     } catch (err) {
       setLoading(false);
       toast(err.response.data)

@@ -71,6 +71,9 @@ export const login = async (req, res) => {
     //check password, first arg is the password from request, 2nd arg is from database, if passed
     const match = await comparePassword(password, user.password);
 
+    //if it does not match, show error
+    if(!match) return res.status(400).send('username or password does not match.');
+
     //create signed jwt - don't forget to import jsonwebtoken first
     //inside sign we need 2 args, first one is the data of user from database
     //2nd arg is the UWT secret from env file
@@ -208,4 +211,33 @@ const emailSent = SES.sendEmail(params).promise();
 } catch (err) {
   console.log(err)
 }
+}
+
+
+//Reset password
+export const resetPassword = async (req, res) => {
+  try {
+    //access email, code, and resetPassword from req body
+    const {email, code, newPassword} = req.body;
+    // console.table({email, code, newPassword});
+
+    //hash new password before saving
+    const encryptPassword = await hashPassword(newPassword);
+
+    //find user and update, 2nd arg - the thing I want to update
+    const user = User.findOneAndUpdate({
+      email,
+      passwordResetCode: code,
+    }, {
+      password: encryptPassword,
+      passwordResetCode: "",
+    }).exec();
+
+    //send response
+    res.json({ok: true});
+
+  } catch (err) {
+    console.log(err)
+    return res.status(400).send('Error! Try again.')
+  }
 }
