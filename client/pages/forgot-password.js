@@ -22,10 +22,11 @@ const ForgotPassword = () => {
   const router = useRouter()
 
   //redirect if user is logged in
+  //we add the user in dependency array so that when they are
+  //logged in, they will not be able to access the forgot password route
   useEffect(() => {
     if(user) router.push('/');
-    
-  }, [])
+  }, [user])
   
   //handle form submission
   const handleSubmit = async (e) => {

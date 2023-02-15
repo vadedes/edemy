@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { SyncOutlined } from '@ant-design/icons';
+import UserNav from '../nav/UserNav';
 
 const UserRoute = ({ children }) => {
   //state
@@ -27,7 +28,20 @@ const UserRoute = ({ children }) => {
   };
 
   return (
-    <>{!ok ? <SyncOutlined spin className="flex justify-center p5 text-4xl" /> : <>{children}</>}</>
+    <>{!ok ? (<SyncOutlined spin className="flex justify-center p5 text-4xl" />
+    ) : (
+      <>
+        <div className='container mx-auto'>
+          <div className='flex'>
+              <div className='flex flex-col w-1/6'>
+                <UserNav/>
+              </div>
+              <div className='flex flex-col w-full'>
+                {children}
+              </div>
+          </div>
+        </div>
+      </>)}</>
   );
 };
 

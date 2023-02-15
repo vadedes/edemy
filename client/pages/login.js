@@ -48,7 +48,7 @@ export default function Login() {
       setLoading(false);
 
       //redirect user to dashboard once logged in
-      router.push('/');
+      router.push('/user');
     } catch (error) {
       toast.error(error.response.data);
       setLoading(false);
