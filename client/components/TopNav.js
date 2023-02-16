@@ -8,6 +8,8 @@ import {
   LogoutOutlined,
   CoffeeOutlined,
   UserOutlined,
+  CarryOutOutlined,
+  TeamOutlined
 } from '@ant-design/icons';
 import { Context } from '@/context';
 import axios from 'axios';
@@ -75,6 +77,18 @@ export default function TopNav() {
         <Item key="/" icon={<AppstoreOutlined />}>
           <Link href="/">Home</Link>
         </Item>
+
+        {/* Instructor buttons */}
+        {user && user.role && user.role.includes("Instructor") ? (
+          <Item key="/instructor/course/create" icon={<CarryOutOutlined />}>
+            <Link href="/instructor/course/create">Create Course</Link>
+          </Item>
+        ) : (
+          <Item key="/user/become-instructor" icon={<TeamOutlined />}>
+            <Link href="/user/become-instructor">Become and Instructor</Link>
+          </Item>
+        )}
+
         {!user && (
           <>
             <Item key="/login" icon={<LoginOutlined />}>
