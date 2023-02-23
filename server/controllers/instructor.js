@@ -29,15 +29,14 @@ export const makeInstructor = async (req, res) => {
       type: "account_onboarding",
     });
     //4. pre-fill any info such as email (optional), then send url response to frontend
-    accountLink = Object.assign(accountLink, {
-      "stripe_user[email]": user.email,
-    });
+    const searchParams = new URLSearchParams();
+    searchParams.append("stripe_user[email]", user.email);
+    const accountLinkWithPrefilledEmail = `${accountLink.url}?${searchParams.toString()}`;
+
+
     //5. then send the account link as response to frontend
     // we are building the query sting to be sent back to frontend
-    const url = new URL(`${accountLink.url}`);
-    const params = new URLSearchParams(url.search);
-
-    res.send(`${url}?${params.toString(accountLink)}`);
+    res.send(accountLinkWithPrefilledEmail);
   } catch (err) {
     console.log("MAKE INSTRUCTOR ERR", err);
   }
