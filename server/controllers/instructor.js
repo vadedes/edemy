@@ -41,3 +41,32 @@ export const makeInstructor = async (req, res) => {
     console.log("MAKE INSTRUCTOR ERR", err);
   }
 };
+
+export const getAccountStatus = async (req, res) => {
+  try {
+    //get the user from database
+    const user = await User.findById(req.auth._id).exec();
+
+    //find the account from stripe because we need to get the updated information
+    //this will only exist if the user has successfully completed the onboarding process
+    const account = await stripe.accounts.retrieve(user.stripe_account_id)
+    // console.log("ACCOUNT =>", account)//check what info stripe returns about this user
+    //check if account charges is enabled
+    if(!account.charges_enabled) {
+      return res.status(401).send("Unauthorized");
+    } else {
+      //save the object stripe returned abount the user
+      const statusUpdated = await User.findByIdAndUpdate(user._id, {
+        stripe_seller: account,
+        $addToSet: {role: "Instructor"},
+      },
+      {new: true}
+      ).select("-password").exec();//don't send the password to frontend
+      res.json(statusUpdated); //send to frontend
+    }
+
+    
+  } catch (err) {
+    console.log(err)
+  }
+}
