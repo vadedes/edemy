@@ -10,6 +10,7 @@ const CourseCreateForm = ({
   setValues,
   preview,
   uploadButtonText,
+  handleImageRemove,
 }) => {
   const children = [];
   for (let i = 9.99; i <= 100.99; i++) {
@@ -85,7 +86,9 @@ const CourseCreateForm = ({
               </label>
               {preview && (
                 <div className='w-3/6 ml-4'>
-                  <Avatar src={preview} />
+                  <Badge count='X' onClick={handleImageRemove} className='cursor-pointer'>
+                    <Avatar src={preview} />
+                  </Badge>
                 </div>
               )}
             </div>
