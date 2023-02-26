@@ -9,6 +9,7 @@ const CourseCreateForm = ({
   values,
   setValues,
   preview,
+  uploadButtonText,
 }) => {
   const children = [];
   for (let i = 9.99; i <= 100.99; i++) {
@@ -72,7 +73,7 @@ const CourseCreateForm = ({
             </div>
             <div className='w-full mt-4 mb-4 flex items-center justify-start'>
               <label className='block w-5/6 mb-4 p-3 border-solid border-2 border-slate-300 rounded-md cursor-pointer font-bold text-slate-800 hover:bg-slate-400 hover:text-white transition ease-in-out duration-300'>
-                {values.loading ? "Uploading" : "Image upload"}
+                {uploadButtonText}
                 <input
                   type='file'
                   name='image'
