@@ -12,15 +12,19 @@ const Coursecreate = () => {
     paid: true,
     category: "",
     loading: false,
-    imagePreview: "",
   });
+  const [preview, setPreview] = useState("");
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  const handleImage = () => {
-    //
+  const handleImage = (e) => {
+    //1. Select the file uploaded to the input field with type=file
+    //createObjectURL comes with browsers by default
+    //create a temporary URL representing the first file that was selected by the user.
+    //use this URL only for temporary preview purposes and not to rely on it for long-term storage or retrieval of the file
+    setPreview(window.URL.createObjectURL(e.target.files[0]));
   };
 
   const handleSubmit = (e) => {
@@ -40,6 +44,7 @@ const Coursecreate = () => {
             handleImage={handleImage}
             values={values}
             setValues={setValues}
+            preview={preview}
           />
         </div>
         <pre>{JSON.stringify(values, null, 4)}</pre>

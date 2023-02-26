@@ -2,7 +2,14 @@ import { Select, Button, Avatar, Badge } from "antd";
 
 const { Option } = Select;
 
-const CourseCreateForm = ({ handleSubmit, handleImage, handleChange, values, setValues }) => {
+const CourseCreateForm = ({
+  handleSubmit,
+  handleImage,
+  handleChange,
+  values,
+  setValues,
+  preview,
+}) => {
   const children = [];
   for (let i = 9.99; i <= 100.99; i++) {
     children.push(<Option key={i.toFixed(2)}>${i.toFixed(2)}</Option>);
@@ -63,8 +70,8 @@ const CourseCreateForm = ({ handleSubmit, handleImage, handleChange, values, set
                 onChange={handleChange}
               />
             </div>
-            <div className='w-full mt-4 mb-4 '>
-              <label className='block w-full mb-4 p-3 border-solid border-2 border-slate-300 rounded-md cursor-pointer font-bold text-slate-800 hover:bg-slate-400 hover:text-white transition ease-in-out duration-300'>
+            <div className='w-full mt-4 mb-4 flex items-center justify-start'>
+              <label className='block w-5/6 mb-4 p-3 border-solid border-2 border-slate-300 rounded-md cursor-pointer font-bold text-slate-800 hover:bg-slate-400 hover:text-white transition ease-in-out duration-300'>
                 {values.loading ? "Uploading" : "Image upload"}
                 <input
                   type='file'
@@ -75,6 +82,11 @@ const CourseCreateForm = ({ handleSubmit, handleImage, handleChange, values, set
                   className='w-full'
                 />
               </label>
+              {preview && (
+                <div className='w-3/6 ml-4'>
+                  <Avatar src={preview} />
+                </div>
+              )}
             </div>
           </div>
           <div className='w-full mt-4'>
