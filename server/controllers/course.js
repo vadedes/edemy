@@ -77,10 +77,9 @@ export const removeImage = async (req, res) => {
 //create a course
 export const create = async (req, res) => {
   try {
-    const { name, description, price, category } = req.body;
+    const { name } = req.body;
     //1. Check if the course already exists by checking the course name
-    if (!name || !description || !price || !category)
-      return res.status(400).send("Invalid request, course name is required");
+    if (!name) return res.status(400).send(`Invalid request, course name is required`);
 
     const alreadyExist = await Course.findOne({
       slug: slugify(name.toLowerCase()), //convert course name into a slug
