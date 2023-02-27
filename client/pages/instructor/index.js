@@ -28,14 +28,16 @@ const InstructorIndex = () => {
         {/* <pre>{JSON.stringify(courses, null, 4)}</pre> */}
         {courses &&
           courses.map((course) => (
-            <div className='media pt-2 px-10 flex items-center justify-start mb-4 w-full'>
+            <div
+              key={course.id}
+              className='media pt-2 px-10 flex items-center justify-start mb-4 w-full'>
               <Avatar size={80} src={course.image ? course.image.Location : "/course.png"} />
 
               <div className='media-body pl-4 w-full'>
                 <div className='flex w-full justify-between'>
                   <div className='flex flex-col justify-start'>
                     <Link
-                      href={`/instructor/course/view/${course._id}`}
+                      href={`/instructor/course/view/${course.slug}`}
                       className='cursor-pointer mt-2 text-2xl font-bold pb-2'>
                       {course.name}
                     </Link>
