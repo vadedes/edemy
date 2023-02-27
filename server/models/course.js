@@ -15,10 +15,10 @@ const lessonSchema = new mongoose.Schema(
       lowercase: true,
     },
     content: {
-      type: String,
+      type: {},
       minlength: 200,
     },
-    video: String,
+    video: {},
     free_preview: {
       type: Boolean,
       default: false,
@@ -41,19 +41,16 @@ const courseSchema = new mongoose.Schema(
       lowercase: true,
     },
     description: {
-      type: String,
-      minlength: 200,
+      type: {},
+      minlength: 10,
       required: true,
     },
     price: {
       type: mongoose.Schema.Types.Decimal128,
       default: 9.99,
     },
-    image: {
-      type: String,
-      required: true,
-    },
-    category: [String],
+    image: {},
+    category: String,
     published: {
       type: Boolean,
       default: false,

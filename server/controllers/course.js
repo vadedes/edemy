@@ -1,5 +1,7 @@
 import AWS from "aws-sdk";
 import { nanoid } from "nanoid";
+import Course from "../models/course";
+import slugify from "slugify";
 
 const awsConfig = {
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -10,6 +12,8 @@ const awsConfig = {
 
 const S3 = new AWS.S3(awsConfig);
 
+//upload avatar image on course create form, save to aws s3 first then
+//return back the uploaded image object data to be saved in the database
 export const uploadImage = async (req, res) => {
   // console.log(req.body);
   try {
@@ -45,6 +49,7 @@ export const uploadImage = async (req, res) => {
   }
 };
 
+//remove uploaded avatar on course create form
 export const removeImage = async (req, res) => {
   try {
     const { image } = req.body;
@@ -66,5 +71,36 @@ export const removeImage = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Failed to delete image" });
+  }
+};
+
+//create a course
+export const create = async (req, res) => {
+  try {
+    const { name, description, price, category } = req.body;
+    //1. Check if the course already exists by checking the course name
+    if (!name || !description || !price || !category)
+      return res.status(400).send("Invalid request, course name is required");
+
+    const alreadyExist = await Course.findOne({
+      slug: slugify(name.toLowerCase()), //convert course name into a slug
+    });
+
+    if (alreadyExist) {
+      return res.status(400).send("Course name is already taken");
+    }
+
+    //2. save the course to the database
+    const course = await Course.create({
+      slug: slugify(name), //generate slug based on name
+      instructor: req.auth._id,
+      ...req.body,
+    });
+
+    //3. respond to frontend with json data containing course object
+    res.json(course);
+  } catch (err) {
+    console.log(err);
+    return res.status(400).send("Course create failed. Try again.");
   }
 };
