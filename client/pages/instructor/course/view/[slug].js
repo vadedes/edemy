@@ -42,6 +42,7 @@ const CourseView = () => {
     course && studentCount();
   }, [course]);
 
+  //Load the courses
   const loadCourse = async () => {
     const { data } = await axios.get(`/api/course/${slug}`);
     setCourse(data);
@@ -70,8 +71,47 @@ const CourseView = () => {
 
   return (
     <InstructorRoute>
-      <div className='container mx-auto'>
-        <pre>{JSON.stringify(course, null, 4)}</pre>
+      <div className='container mx-auto px-5 w-full'>
+        {/* <pre>{JSON.stringify(course, null, 4)}</pre> */}
+        {course && (
+          <div className='container mx-auto pt-1 flex w-full items-center justify-between'>
+            <div className='media pt-2 flex justify-start items-center w-full'>
+              <Avatar
+                className='object-cover min-w-[80px]'
+                size={80}
+                src={course.image ? course.image.Location : "/course.png"}
+              />
+
+              <div className='media-body pl-4 flex justify-between w-full'>
+                <div className='flex flex-col'>
+                  <h5 className='mt-2 text-xl'>{course.name}</h5>
+                  <p style={{ marginTop: "-5px" }}>
+                    {course.lessons && course.lessons.length} Lessons
+                  </p>
+                  <p style={{ fontSize: "10px" }}>{course.category}</p>
+                </div>
+
+                <div className='flex pt-4'>
+                  <Tooltip title='Edit'>
+                    <EditOutlined
+                      onClick={() => router.push(`/instructor/course/edit/${slug}`)}
+                      className='h5 pointer mr-6 cursor-pointer'
+                    />
+                  </Tooltip>
+
+                  <Tooltip title='Publish'>
+                    <CheckOutlined
+                      onClick={(e) => handlePublish(e, course._id)}
+                      className='h5 pointer text-red-500 cursor-pointer'
+                    />
+                  </Tooltip>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div></div>
+          </div>
+        )}
       </div>
     </InstructorRoute>
   );

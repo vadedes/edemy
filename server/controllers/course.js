@@ -107,7 +107,7 @@ export const create = async (req, res) => {
 export const read = async (req, res) => {
   try {
     const course = await Course.findOne({ slug: req.params.slug })
-      .populate("instructor", "_id name")
+      .populate("instructor", "_id name") //2nd arg here is we are selecting just the data about the instructor we want to pull
       .exec();
     res.json(course);
   } catch (err) {
