@@ -74,7 +74,7 @@ const CourseView = () => {
       <div className='container mx-auto px-5 w-full'>
         {/* <pre>{JSON.stringify(course, null, 4)}</pre> */}
         {course && (
-          <div className='container mx-auto pt-1 flex w-full items-center justify-between'>
+          <div className='container mx-auto pt-1 flex flex-col w-full justify-start'>
             <div className='media pt-2 flex justify-start items-center w-full'>
               <Avatar
                 className='object-cover min-w-[80px]'
@@ -83,12 +83,14 @@ const CourseView = () => {
               />
 
               <div className='media-body pl-4 flex justify-between w-full'>
-                <div className='flex flex-col'>
-                  <h5 className='mt-2 text-xl'>{course.name}</h5>
-                  <p style={{ marginTop: "-5px" }}>
-                    {course.lessons && course.lessons.length} Lessons
-                  </p>
-                  <p style={{ fontSize: "10px" }}>{course.category}</p>
+                <div className='flex justify-start'>
+                  <div className='flex flex-col'>
+                    <h5 className='mt-2 text-2xl font-bold'>{course.name}</h5>
+                    <p style={{ marginTop: "-5px" }}>
+                      {course.lessons && course.lessons.length} Lessons
+                    </p>
+                    <p style={{ fontSize: "10px" }}>{course.category}</p>
+                  </div>
                 </div>
 
                 <div className='flex pt-4'>
@@ -108,8 +110,10 @@ const CourseView = () => {
                 </div>
               </div>
             </div>
-            <hr />
-            <div></div>
+
+            <div className='flex flex-col justify-start items-start mt-4'>
+              <ReactMarkdown children={course.description} />
+            </div>
           </div>
         )}
       </div>

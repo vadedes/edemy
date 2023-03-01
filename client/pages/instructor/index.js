@@ -38,7 +38,7 @@ const InstructorIndex = () => {
                   <div className='flex flex-col justify-start'>
                     <Link
                       href={`/instructor/course/view/${course.slug}`}
-                      className='cursor-pointer mt-2 text-2xl font-bold pb-2'>
+                      className='cursor-pointer mt-2 text-2xl text-bold pb-2'>
                       {course.name}
                     </Link>
                     <p className='mt-[-10px]'>{course.lessons.length} Lessons</p>
