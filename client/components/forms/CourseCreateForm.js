@@ -95,7 +95,7 @@ const CourseCreateForm = ({
           </div>
           <div className='w-full mt-4'>
             <Button
-              className='px-6 py-4 h-[55px] flex justify-center items-center uppercase font-bold w-full bg-slate-500 text-white rounded-md transition ease-in-out duration-300 hover:!text-white '
+              className='px-6 py-4 h-[55px] flex justify-center items-center uppercase font-bold w-full bg-slate-500 text-white rounded-md transition ease-in-out duration-300 hover:!text-white'
               onClick={handleSubmit}
               disabled={values.loading || values.uploading}
               loading={values.loading}

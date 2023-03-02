@@ -11,6 +11,7 @@ import {
   getAccountStatus,
   currentInstructor,
   instructorCourses,
+  studentCount,
 } from "../controllers/instructor";
 
 router.post("/make-instructor", requireSignin, makeInstructor); //route to create an instructor
@@ -18,5 +19,7 @@ router.post("/get-account-status", requireSignin, getAccountStatus); //route to 
 router.get("/current-instructor", requireSignin, currentInstructor); //route to fetch current instructor - instructor route file on frontend
 
 router.get("/instructor-courses", requireSignin, instructorCourses);
+
+router.post("/instructor/student-count", requireSignin, studentCount);
 
 module.exports = router;
