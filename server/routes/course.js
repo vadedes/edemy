@@ -1,5 +1,5 @@
 import express from "express";
-import formidable from "express-formidable";
+import formidable from "express-formidable"; //use formidable when sending file form data
 
 const router = express.Router();
 
@@ -13,6 +13,7 @@ import {
   create,
   read,
   uploadVideo,
+  removeVideo,
   addLesson,
 } from "../controllers/course";
 
@@ -24,6 +25,7 @@ router.post("/course/remove-image", requireSignin, removeImage);
 router.post("/course", requireSignin, isInstructor, create);
 router.get("/course/:slug", read);
 router.post("/course/video-upload/:instructorId", requireSignin, formidable(), uploadVideo);
+router.post("/course/video-remove/:instructorId", requireSignin, removeVideo);
 
 router.post("/course/lesson/:slug/:instructorId", requireSignin, addLesson);
 

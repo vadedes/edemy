@@ -151,6 +151,35 @@ export const uploadVideo = async (req, res) => {
   }
 };
 
+export const removeVideo = async (req, res) => {
+  try {
+    if (req.auth._id != req.params.instructorId) {
+      return res.status(400).send("Unauthorized");
+    }
+
+    const { Bucket, Key } = req.body;
+    // console.log("VIDEO REMOVE =====> ", req.body);
+
+    // video params
+    const params = {
+      Bucket,
+      Key,
+    };
+
+    // upload to s3
+    S3.deleteObject(params, (err, data) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(400);
+      }
+      console.log(data);
+      res.send({ ok: true });
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const addLesson = async (req, res) => {
   try {
     const { slug, instructorId } = req.params;

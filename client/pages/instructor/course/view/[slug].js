@@ -107,10 +107,28 @@ const CourseView = () => {
   };
 
   const handleVideoRemove = async () => {
-    //
+    try {
+      setUploading(true);
+      const { data } = await axios.post(
+        `/api/course/video-remove/${course.instructor._id}`,
+        values.video
+      );
+      console.log(data);
+      setValues({ ...values, video: {} });
+      setUploading(false);
+      setUploadButtonText("Upload another video");
+    } catch (err) {
+      console.log(err);
+      setUploading(false);
+      toast("Video remove failed");
+    }
   };
 
   const handlePublish = async (e, courseId) => {
+    //
+  };
+
+  const handleUnpublish = async (e, courseId) => {
     //
   };
 
