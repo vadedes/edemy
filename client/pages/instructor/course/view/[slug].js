@@ -78,7 +78,32 @@ const CourseView = () => {
   };
 
   const handleVideo = async (e) => {
-    //
+    try {
+      const file = e.target.files[0];
+      setUploadButtonText(file.name);
+      setUploading(true);
+
+      const videoData = new FormData();
+      videoData.append("video", file);
+      // save progress bar and send video as form data to backend
+      const { data } = await axios.post(
+        `/api/course/video-upload/${course.instructor._id}`,
+        videoData,
+        {
+          onUploadProgress: (e) => {
+            setProgress(Math.round((100 * e.loaded) / e.total));
+          },
+        }
+      );
+      // once response is received
+      console.log(data);
+      setValues({ ...values, video: data });
+      setUploading(false);
+    } catch (err) {
+      console.log(err);
+      setUploading(false);
+      toast("Video upload failed");
+    }
   };
 
   const handleVideoRemove = async () => {

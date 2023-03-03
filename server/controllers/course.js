@@ -2,6 +2,7 @@ import AWS from "aws-sdk";
 import { nanoid } from "nanoid";
 import Course from "../models/course";
 import slugify from "slugify";
+import { readFileSync } from "fs";
 
 const awsConfig = {
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -110,6 +111,41 @@ export const read = async (req, res) => {
       .populate("instructor", "_id name") //2nd arg here is we are selecting just the data about the instructor we want to pull
       .exec();
     res.json(course);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const uploadVideo = async (req, res) => {
+  try {
+    // console.log("req.user._id", req.user._id);
+    // console.log("req.params.instructorId", req.params.instructorId);
+    if (req.auth._id != req.params.instructorId) {
+      return res.status(400).send("Unauthorized");
+    }
+
+    const { video } = req.files;
+    // console.log(video);
+    if (!video) return res.status(400).send("No video");
+
+    // video params
+    const params = {
+      Bucket: "vade-edemy-bucket",
+      Key: `${nanoid()}.${video.type.split("/")[1]}`,
+      Body: readFileSync(video.path),
+      ACL: "public-read",
+      ContentType: video.type,
+    };
+
+    // upload to s3
+    S3.upload(params, (err, data) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(400);
+      }
+      console.log(data);
+      res.send(data);
+    });
   } catch (err) {
     console.log(err);
   }
